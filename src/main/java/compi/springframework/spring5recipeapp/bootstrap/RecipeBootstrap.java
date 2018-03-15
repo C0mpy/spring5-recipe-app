@@ -4,6 +4,7 @@ import compi.springframework.spring5recipeapp.model.*;
 import compi.springframework.spring5recipeapp.repositories.CategoryRepository;
 import compi.springframework.spring5recipeapp.repositories.RecipeRepository;
 import compi.springframework.spring5recipeapp.repositories.UnitOfMeasureRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     private final RecipeRepository recipeRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
 
+    @Autowired
     public RecipeBootstrap(CategoryRepository categoryRepository, RecipeRepository recipeRepository, UnitOfMeasureRepository unitOfMeasureRepository) {
         this.categoryRepository = categoryRepository;
         this.recipeRepository = recipeRepository;
