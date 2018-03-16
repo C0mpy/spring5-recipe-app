@@ -13,6 +13,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -25,10 +27,7 @@ public class RecipeServiceImplTest {
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         recipeService = new RecipeServiceImpl(recipeRepository);
-
     }
 
     @Test
@@ -42,6 +41,8 @@ public class RecipeServiceImplTest {
 
         Set<Recipe> recipes = recipeService.getRecipes();
         assertEquals(1, recipes.size());
+
+        verify(recipeRepository, times(1)).findAll();
     }
 
 }
