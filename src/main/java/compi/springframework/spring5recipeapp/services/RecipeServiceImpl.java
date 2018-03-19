@@ -31,7 +31,6 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Set<Recipe> getRecipes() {
-        log.debug("I'm in the service");
         Set<Recipe> recipeSet = new HashSet<>();
         recipeRepository.findAll().forEach(recipe -> recipeSet.add(recipe));
         return recipeSet;
@@ -54,7 +53,6 @@ public class RecipeServiceImpl implements RecipeService {
         Recipe detachedRecipe = dtoToRecipe.convert(recipeDTO);
 
         Recipe savedRecipe = recipeRepository.save(detachedRecipe);
-        log.info("Saved recipe.id: " + recipeDTO.getId());
 
         return recipeToDto.convert(savedRecipe);
 
