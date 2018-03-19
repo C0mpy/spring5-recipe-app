@@ -48,6 +48,12 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    public void deleteById(Long id) {
+        recipeRepository.deleteById(id);
+
+    }
+
+    @Override
     @Transactional
     public RecipeDTO saveRecipeDTO(RecipeDTO recipeDTO) {
         Recipe detachedRecipe = dtoToRecipe.convert(recipeDTO);
