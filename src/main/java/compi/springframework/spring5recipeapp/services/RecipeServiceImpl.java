@@ -60,4 +60,10 @@ public class RecipeServiceImpl implements RecipeService {
 
     }
 
+    @Override
+    public RecipeDTO findRecipeDTO(Long id) {
+        Recipe recipe = findById(id);
+        return recipeToDto.convert(recipe);
+    }
+
 }

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.invoke.MethodType;
+
 @Slf4j
 @Controller
 public class RecipeController {
@@ -19,7 +21,7 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @RequestMapping("/recipe/show/{id}")
+    @RequestMapping(value = "/recipe/{id}/show", method = RequestMethod.GET)
     public String showById(@PathVariable String id, Model model) {
 
         log.info("RecipeController.showById called with: id=" + id);
@@ -28,18 +30,26 @@ public class RecipeController {
         return "recipe/show";
     }
 
-    @RequestMapping("recipe/new")
+    @RequestMapping("/recipe/new")
     public String newRecipe(Model model) {
 
         model.addAttribute("recipe", new RecipeDTO());
         return "recipe/recipeForm";
     }
 
-    @RequestMapping(name = "recipe")
+    @RequestMapping(value = "/recipe/{id}/update")
+    public String updateRecipe(@PathVariable String id, Model model) {
+        model.addAttribute("recipe", recipeService.findRecipeDTO(Long.valueOf(id)));
+        return "recipe/recipeForm";
+    }
+
+
     @PostMapping
+    @RequestMapping("/recipe")
     public String saveOrUpdate(@ModelAttribute RecipeDTO dto) {
 
         RecipeDTO savedDto = recipeService.saveRecipeDTO(dto);
-        return "redirect:/recipe/show/" + savedDto.getId();
+        return "redirect:/recipe/" + savedDto.getId() + "/show";
     }
+
 }
