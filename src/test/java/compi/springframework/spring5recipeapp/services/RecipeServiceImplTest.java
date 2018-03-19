@@ -1,5 +1,7 @@
 package compi.springframework.spring5recipeapp.services;
 
+import compi.springframework.spring5recipeapp.converters.request.DtoToRecipe;
+import compi.springframework.spring5recipeapp.converters.response.RecipeToDto;
 import compi.springframework.spring5recipeapp.model.Recipe;
 import compi.springframework.spring5recipeapp.repositories.RecipeRepository;
 import org.junit.Assert;
@@ -7,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.HashSet;
@@ -26,9 +27,15 @@ public class RecipeServiceImplTest {
     @Mock
     RecipeRepository recipeRepository;
 
+    @Mock
+    DtoToRecipe dtoToRecipe;
+
+    @Mock
+    RecipeToDto recipeToDto;
+
     @Before
     public void setUp() {
-        recipeService = new RecipeServiceImpl(recipeRepository);
+        recipeService = new RecipeServiceImpl(recipeRepository, dtoToRecipe, recipeToDto);
     }
 
     @Test
