@@ -1,6 +1,7 @@
 package compi.springframework.spring5recipeapp.services;
 
 import compi.springframework.spring5recipeapp.converters.request.DtoToRecipe;
+import compi.springframework.spring5recipeapp.converters.response.IngredientToDto;
 import compi.springframework.spring5recipeapp.converters.response.RecipeToDto;
 import compi.springframework.spring5recipeapp.model.Recipe;
 import compi.springframework.spring5recipeapp.repositories.RecipeRepository;
@@ -33,9 +34,12 @@ public class RecipeServiceImplTest {
     @Mock
     RecipeToDto recipeToDto;
 
+    @Mock
+    IngredientToDto ingredientToDto;
+
     @Before
     public void setUp() {
-        recipeService = new RecipeServiceImpl(recipeRepository, dtoToRecipe, recipeToDto);
+        recipeService = new RecipeServiceImpl(recipeRepository, dtoToRecipe, recipeToDto, ingredientToDto);
     }
 
     @Test

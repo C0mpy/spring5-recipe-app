@@ -1,5 +1,6 @@
 package compi.springframework.spring5recipeapp.services;
 
+import compi.springframework.spring5recipeapp.dtos.IngredientDTO;
 import compi.springframework.spring5recipeapp.dtos.RecipeDTO;
 import compi.springframework.spring5recipeapp.model.Recipe;
 

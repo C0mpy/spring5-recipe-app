@@ -1,7 +1,9 @@
 package compi.springframework.spring5recipeapp.services;
 
 import compi.springframework.spring5recipeapp.converters.request.DtoToRecipe;
+import compi.springframework.spring5recipeapp.converters.response.IngredientToDto;
 import compi.springframework.spring5recipeapp.converters.response.RecipeToDto;
+import compi.springframework.spring5recipeapp.dtos.IngredientDTO;
 import compi.springframework.spring5recipeapp.dtos.RecipeDTO;
 import compi.springframework.spring5recipeapp.model.Recipe;
 import compi.springframework.spring5recipeapp.repositories.RecipeRepository;
@@ -21,12 +23,15 @@ public class RecipeServiceImpl implements RecipeService {
     private final RecipeRepository recipeRepository;
     private final DtoToRecipe dtoToRecipe;
     private final RecipeToDto recipeToDto;
+    private final IngredientToDto ingredientToDto;
 
     @Autowired
-    public RecipeServiceImpl(RecipeRepository recipeRepository, DtoToRecipe dtoToRecipe, RecipeToDto recipeToDto) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository, DtoToRecipe dtoToRecipe,
+                             RecipeToDto recipeToDto, IngredientToDto ingredientToDto) {
         this.recipeRepository = recipeRepository;
         this.dtoToRecipe = dtoToRecipe;
         this.recipeToDto = recipeToDto;
+        this.ingredientToDto = ingredientToDto;
     }
 
     @Override
@@ -66,6 +71,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public RecipeDTO findRecipeDTO(Long id) {
+        log.warn("AFADFADFADFAFAFAD   " + id);
         Recipe recipe = findById(id);
         return recipeToDto.convert(recipe);
     }
