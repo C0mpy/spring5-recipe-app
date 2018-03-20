@@ -3,7 +3,6 @@ package compi.springframework.spring5recipeapp.services;
 import compi.springframework.spring5recipeapp.converters.request.DtoToRecipe;
 import compi.springframework.spring5recipeapp.converters.response.IngredientToDto;
 import compi.springframework.spring5recipeapp.converters.response.RecipeToDto;
-import compi.springframework.spring5recipeapp.dtos.IngredientDTO;
 import compi.springframework.spring5recipeapp.dtos.RecipeDTO;
 import compi.springframework.spring5recipeapp.model.Recipe;
 import compi.springframework.spring5recipeapp.repositories.RecipeRepository;
@@ -71,7 +70,6 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public RecipeDTO findRecipeDTO(Long id) {
-        log.warn("AFADFADFADFAFAFAD   " + id);
         Recipe recipe = findById(id);
         return recipeToDto.convert(recipe);
     }

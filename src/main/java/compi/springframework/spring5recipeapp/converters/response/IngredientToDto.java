@@ -28,6 +28,8 @@ public class IngredientToDto implements Converter<Ingredient, IngredientDTO> {
         }
         IngredientDTO dto = new IngredientDTO();
         dto.setId(source.getId());
+        if(source.getRecipe() != null)
+            dto.setRecipeId(source.getRecipe().getId());
         dto.setAmount(source.getAmount());
         dto.setDescription(source.getDescription());
         dto.setUnitOfMeasure(unitOfMeasureToDto.convert(source.getUom()));
