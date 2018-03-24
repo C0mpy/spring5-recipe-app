@@ -71,8 +71,6 @@ public class IngredientServiceImpl implements IngredientService {
                     .filter(ingredient -> ingredient.getId() == ingredientDTO.getId())
                     .findFirst();
 
-            log.warn(ingredientDTO.toString());
-
             if(ingredientOptional.isPresent()) {
 
                 Ingredient ingredient = ingredientOptional.get();
@@ -81,16 +79,20 @@ public class IngredientServiceImpl implements IngredientService {
                 ingredient.setUom(unitOfMeasureRepository.findById(ingredientDTO.getUnitOfMeasure().getId())
                 .orElseThrow(() -> new RuntimeException("UOM NOT FOUND"))); //todo address this
             } else {
-                recipe.addIngredient(dtoToIngredient.convert(ingredientDTO));
+                Ingredient ingredient = dtoToIngredient.convert(ingredientDTO);
+                ingredient.setRecipe(recipe);
+                recipe.addIngredient(ingredient);
             }
 
             Recipe savedRecipe = recipeRepository.save(recipe);
 
-            return ingredientToDto.convert(
-                    savedRecipe.getIngredients().stream()
-                    .filter(ingredient -> ingredient.getId() == ingredientDTO.getId())
-                    .findFirst()
-                    .get());
+            Optional<Ingredient> savedIngredientOptional = savedRecipe.getIngredients().stream()
+                    .filter(recipeIngredient -> recipeIngredient.getDescription().equals(ingredientDTO.getDescription()))
+                    .filter(recipeIngredient -> recipeIngredient.getAmount().equals(ingredientDTO.getAmount()))
+                    .filter(recipeIngredient -> recipeIngredient.getUom().getId().equals(ingredientDTO.getUnitOfMeasure().getId()))
+                    .findFirst();
+
+            return ingredientToDto.convert(savedIngredientOptional.get());
         }
 
     }

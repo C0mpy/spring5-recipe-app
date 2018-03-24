@@ -1,6 +1,9 @@
 package compi.springframework.spring5recipeapp.controllers;
 
 import compi.springframework.spring5recipeapp.dtos.IngredientDTO;
+import compi.springframework.spring5recipeapp.dtos.RecipeDTO;
+import compi.springframework.spring5recipeapp.dtos.UnitOfMeasureDTO;
+import compi.springframework.spring5recipeapp.model.Ingredient;
 import compi.springframework.spring5recipeapp.services.IngredientService;
 import compi.springframework.spring5recipeapp.services.RecipeService;
 import compi.springframework.spring5recipeapp.services.UnitOfMeasureService;
@@ -9,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 @Slf4j
 @Controller
@@ -31,7 +36,27 @@ public class IngredientController {
 
         log.debug("IngredientController.listIngredients recipeId=" + id);
         model.addAttribute("recipe", recipeService.findRecipeDTO(Long.parseLong(id)));
-        return "/recipe/ingredient/list";
+        return "recipe/ingredient/list";
+    }
+
+    @GetMapping
+    @RequestMapping("/recipe/{recipeId}/ingredient/new")
+    public String newIngredientForm(@PathVariable String recipeId, Model model) {
+
+        log.debug("IngredientController.newIngredientForm");
+
+        // check if recipeId is good
+        RecipeDTO recipeDTO = recipeService.findRecipeDTO(Long.valueOf(recipeId));
+        //todo raise expetion if recipeDTO is null
+
+        IngredientDTO ingredientDTO = new IngredientDTO();
+        ingredientDTO.setRecipeId(recipeDTO.getId());
+        model.addAttribute("ingredient", ingredientDTO);
+
+        Set<UnitOfMeasureDTO> uoms = unitOfMeasureService.listAllUoms();
+        model.addAttribute("uomList", uoms);
+        return "recipe/ingredient/ingredientForm";
+
     }
 
     @GetMapping
@@ -47,10 +72,10 @@ public class IngredientController {
 
     @GetMapping
     @RequestMapping("/recipe/{recipeId}/ingredient/{ingredientId}/update")
-    public String updateRecipeIngredient(@PathVariable String recipeId,
+    public String updateIngredientForm(@PathVariable String recipeId,
                                          @PathVariable String ingredientId, Model model) {
 
-        log.debug("IngredientController.updateRecipeIngredient recipeId=" + recipeId + " ingredientId=" + ingredientId);
+        log.debug("IngredientController.updateIngredientForm recipeId=" + recipeId + " ingredientId=" + ingredientId);
         model.addAttribute("ingredient",
                 ingredientService.findByRecipeIdAndIngredientId(Long.valueOf(recipeId), Long.valueOf(ingredientId)));
         model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
