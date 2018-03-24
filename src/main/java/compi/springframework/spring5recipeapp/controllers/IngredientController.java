@@ -30,8 +30,7 @@ public class IngredientController {
         this.ingredientService = ingredientService;
     }
 
-    @GetMapping
-    @RequestMapping("/recipe/{id}/ingredients")
+    @GetMapping("/recipe/{id}/ingredients")
     public String listIngredients(@PathVariable String id, Model model) {
 
         log.debug("IngredientController.listIngredients recipeId=" + id);
@@ -39,8 +38,7 @@ public class IngredientController {
         return "recipe/ingredient/list";
     }
 
-    @GetMapping
-    @RequestMapping("/recipe/{recipeId}/ingredient/new")
+    @GetMapping("/recipe/{recipeId}/ingredient/new")
     public String newIngredientForm(@PathVariable String recipeId, Model model) {
 
         log.debug("IngredientController.newIngredientForm");
@@ -59,8 +57,7 @@ public class IngredientController {
 
     }
 
-    @GetMapping
-    @RequestMapping("/recipe/{recipeId}/ingredient/{ingredientId}/show")
+    @GetMapping("/recipe/{recipeId}/ingredient/{ingredientId}/show")
     public String showIngredient(@PathVariable String recipeId,
                                  @PathVariable String ingredientId, Model model) {
 
@@ -70,8 +67,7 @@ public class IngredientController {
         return "recipe/ingredient/show";
     }
 
-    @GetMapping
-    @RequestMapping("/recipe/{recipeId}/ingredient/{ingredientId}/update")
+    @GetMapping("/recipe/{recipeId}/ingredient/{ingredientId}/update")
     public String updateIngredientForm(@PathVariable String recipeId,
                                          @PathVariable String ingredientId, Model model) {
 
@@ -82,8 +78,7 @@ public class IngredientController {
         return "recipe/ingredient/ingredientForm";
     }
 
-    @PostMapping
-    @RequestMapping(value = "/recipe/{recipeId}/ingredient")
+    @PostMapping(value = "/recipe/{recipeId}/ingredient")
     public String saveOrUpdate(@PathVariable String recipeId,
                                @ModelAttribute IngredientDTO ingredientDTO) {
 
@@ -93,8 +88,7 @@ public class IngredientController {
         return "redirect:/recipe/" + recipeId + "/ingredient/" + savedDTO.getId() + "/show";
     }
 
-    @GetMapping
-    @RequestMapping("/recipe/{recipeId}/ingredient/{ingredientId}/delete")
+    @GetMapping("/recipe/{recipeId}/ingredient/{ingredientId}/delete")
     public String delete(@PathVariable String recipeId,
                          @PathVariable String ingredientId, Model model) {
 

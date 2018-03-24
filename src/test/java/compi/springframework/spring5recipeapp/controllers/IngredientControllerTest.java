@@ -127,7 +127,7 @@ public class IngredientControllerTest {
 
     @Test
     public void deleteTest() throws Exception {
-        mockMvc.perform(post("/recipe/1/ingredient/8/delete"))
+        mockMvc.perform(get("/recipe/1/ingredient/8/delete"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/1/ingredients"));
 
