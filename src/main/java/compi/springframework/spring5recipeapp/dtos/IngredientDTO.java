@@ -16,4 +16,14 @@ public class IngredientDTO {
     private BigDecimal amount;
     private UnitOfMeasureDTO unitOfMeasure;
 
+    @Override
+    public String toString() {
+        return "IngredientDTO{" +
+                "id=" + id +
+                ", recipeId=" + recipeId +
+                ", description='" + description + '\'' +
+                ", amount=" + amount +
+                ", unitOfMeasure=" + unitOfMeasure +
+                '}';
+    }
 }

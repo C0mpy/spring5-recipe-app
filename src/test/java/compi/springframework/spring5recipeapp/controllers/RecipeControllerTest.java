@@ -63,15 +63,15 @@ public class RecipeControllerTest {
         when(recipeService.saveRecipeDTO(any())).thenReturn(dto);
 
         mockMvc.perform(post("/recipe")
-        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-        .param("id", "")
-        .param("description", "some string"))
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("id", "")
+                .param("description", "some string"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/2/show"));
     }
 
     @Test
-    public void testGetUpdateView() throws Exception {
+    public void getUpdateViewTest() throws Exception {
         RecipeDTO dto = new RecipeDTO();
         dto.setId(2L);
 
@@ -85,7 +85,7 @@ public class RecipeControllerTest {
     }
 
     @Test
-    public void testDeleteAction() throws Exception {
+    public void deleteActionTest() throws Exception {
         mockMvc.perform(get("/recipe/1/delete"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"));

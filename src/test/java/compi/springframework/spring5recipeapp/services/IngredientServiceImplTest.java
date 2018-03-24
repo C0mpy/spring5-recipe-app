@@ -1,10 +1,14 @@
 package compi.springframework.spring5recipeapp.services;
 
+import compi.springframework.spring5recipeapp.converters.request.DtoToIngredient;
 import compi.springframework.spring5recipeapp.converters.response.IngredientToDto;
 import compi.springframework.spring5recipeapp.dtos.IngredientDTO;
+import compi.springframework.spring5recipeapp.dtos.UnitOfMeasureDTO;
 import compi.springframework.spring5recipeapp.model.Ingredient;
 import compi.springframework.spring5recipeapp.model.Recipe;
+import compi.springframework.spring5recipeapp.model.UnitOfMeasure;
 import compi.springframework.spring5recipeapp.repositories.RecipeRepository;
+import compi.springframework.spring5recipeapp.repositories.UnitOfMeasureRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +20,8 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -27,11 +33,18 @@ public class IngredientServiceImplTest {
     IngredientToDto ingredientToDto;
 
     @Mock
+    DtoToIngredient dtoToIngredient;
+
+    @Mock
     RecipeRepository recipeRepository;
+
+    @Mock
+    UnitOfMeasureRepository unitOfMeasureRepository;
 
     @Before
     public void setUp() {
-        ingredientService = new IngredientServiceImpl(ingredientToDto, recipeRepository);
+        ingredientService = new IngredientServiceImpl(ingredientToDto, dtoToIngredient,
+                recipeRepository, unitOfMeasureRepository);
     }
 
     @Test
@@ -68,5 +81,40 @@ public class IngredientServiceImplTest {
         assertEquals(Long.valueOf(1L), result.getRecipeId());
     }
 
+    @Test
+    public void saveTest() {
+        UnitOfMeasureDTO uomDto = new UnitOfMeasureDTO();
+        uomDto.setId(1L);
+
+        IngredientDTO dto = new IngredientDTO();
+        dto.setId(1L);
+        dto.setRecipeId(1L);
+        dto.setUnitOfMeasure(uomDto);
+
+        Ingredient mockIngredient = new Ingredient();
+        mockIngredient.setId(1L);
+
+        Recipe mockRecipe = new Recipe();
+        mockRecipe.setId(1L);
+        mockRecipe.addIngredient(mockIngredient);
+
+        when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(mockRecipe));
+
+        UnitOfMeasure mockUom = new UnitOfMeasure();
+        mockUom.setId(1L);
+
+        when(unitOfMeasureRepository.findById(anyLong())).thenReturn(Optional.of(mockUom));
+        when(recipeRepository.save(any())).thenReturn(mockRecipe);
+        when(ingredientToDto.convert(any())).thenReturn(dto);
+
+        IngredientDTO savedIngredientDTO = ingredientService.saveIngredientDto(dto);
+
+        assertEquals(savedIngredientDTO.getId(), dto.getId());
+        verify(recipeRepository, times(1)).findById(any());
+        verify(unitOfMeasureRepository, times(1)).findById(anyLong());
+        verify(recipeRepository, times(1)).save(any());
+
+
+    }
 
 }
