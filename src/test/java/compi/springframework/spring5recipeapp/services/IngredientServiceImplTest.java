@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -88,6 +89,8 @@ public class IngredientServiceImplTest {
 
         IngredientDTO dto = new IngredientDTO();
         dto.setId(1L);
+        dto.setDescription("Description");
+        dto.setAmount(BigDecimal.valueOf(11));
         dto.setRecipeId(1L);
         dto.setUnitOfMeasure(uomDto);
 
@@ -115,6 +118,25 @@ public class IngredientServiceImplTest {
         verify(recipeRepository, times(1)).save(any());
 
 
+    }
+
+    @Test
+    public void deleteTest() {
+        Recipe recipe = new Recipe();
+
+        Ingredient ingredient = new Ingredient();
+        ingredient.setId(1L);
+        ingredient.setRecipe(recipe);
+
+        recipe.setId(1L);
+        recipe.addIngredient(ingredient);
+
+        when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe));
+
+        ingredientService.deleteByRecipeIdAndIngredientId(1L, 1L);
+
+        verify(recipeRepository, times(1)).findById(anyLong());
+        verify(recipeRepository, times(1)).save(any());
     }
 
 }

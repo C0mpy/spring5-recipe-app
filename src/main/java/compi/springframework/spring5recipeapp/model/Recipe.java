@@ -5,12 +5,12 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
 @EqualsAndHashCode(exclude = {"categories", "notes", "ingredients"})
-@ToString(exclude = {"ingredients", "notes"})
 @Entity
 public class Recipe {
 
@@ -58,4 +58,25 @@ public class Recipe {
         return this;
     }
 
+    public Recipe removeIngredient(Ingredient ingredient) {
+        this.ingredients.remove(ingredient);
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", prepTime=" + prepTime +
+                ", cookTime=" + cookTime +
+                ", servings=" + servings +
+                ", source='" + source + '\'' +
+                ", url='" + url + '\'' +
+                ", directions='" + directions + '\'' +
+                ", difficulty=" + difficulty +
+                ", ingredients=" + ingredients.size() +
+                ", image=" + Arrays.toString(image) +
+                '}';
+    }
 }
